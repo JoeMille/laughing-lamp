@@ -4,9 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from models import db, User
 from forms import LoginForm
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
 db.init_app(app)
 
 with app.app_context():
