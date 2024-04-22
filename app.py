@@ -14,5 +14,12 @@ with app.app_context():
 
 @app.route ('/')
 def index():
-    return render_template('index.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.password == form.password.data:
+            return redirect(url_for('home'))
+    return render_template('index.html', form=form)
 
+if __name__ == '__main__':
+    app.run(debug=True)
